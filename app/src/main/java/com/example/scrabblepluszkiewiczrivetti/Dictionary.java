@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -78,6 +79,17 @@ public class Dictionary extends AsyncTask<String, String, String> {
         return Arrays.binarySearch(wordList, word) >= 0;
     }
 
+    private static int getJokersCountInLetters(char [] letters)
+    {
+        int jokerCount = 0;//Collections.frequency(Arrays.asList(letters), '*');
+        for (char c : letters) {
+            if (c == '*') {
+                jokerCount ++;
+            }
+        }
+        return jokerCount;
+    }
+
     public static boolean mayBeComposed(String word, char[] letters)
     {
         word = word.toLowerCase();
@@ -85,13 +97,20 @@ public class Dictionary extends AsyncTask<String, String, String> {
         boolean[] isUsed = new boolean[letters.length];
         Arrays.fill(isUsed, false);
 
+        int jokerCount = getJokersCountInLetters(letters);
+
+
         for(char c : word.toCharArray()) {
             for (int i = 0; i < letters.length; i++) {
                 if (letters[i] == c && !isUsed[i]) {
                     isUsed[i] = true;
                     break;
-                } else if(i == letters.length - 1){
-                    return false;
+                } else if(i == letters.length - 1) {
+                    if (jokerCount > 0) {
+                        jokerCount --;
+                    } else {
+                        return false;
+                    }
                 }
             }
 
@@ -112,6 +131,7 @@ public class Dictionary extends AsyncTask<String, String, String> {
 
         return l;
     }
+
     public static String replaceFrenchCharacter(String s)
     {
         StringBuilder newString = new StringBuilder(s);

@@ -1,20 +1,20 @@
 package com.example.scrabblepluszkiewiczrivetti;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,14 +66,29 @@ public class MainActivity extends AppCompatActivity {
         Log.i("Dict", Boolean.toString(b1));
 
         Log.i("Dict", "Testing mayBeComposed");
-        Boolean b2 = dict.mayBeComposed("bonjour", new char[]{'b', 'o', 'o', 'j', 'n', 'u', 'r'});
-        Log.i("Dict", Boolean.toString(b2));
-        Boolean b3 = dict.mayBeComposed("bonjour", new char[]{'b', 'o', 'j', 'n', 'u', 'r'});
-        Log.i("Dict", Boolean.toString(b3));
-        Boolean b4 = dict.mayBeComposed("bônjöur", new char[]{'b', 'o', 'j', 'n', 'u', 'r'});
-        Log.i("Dict", Boolean.toString(b4));
-        Boolean b5 = dict.mayBeComposed("Bœnjöur", new char[]{'b', 'o', 'j', 'n', 'u', 'r'});
-        Log.i("Dict", Boolean.toString(b5));
+        testMayBeComposed("bonjour",    new char[]{'b', 'o', 'o', 'j', 'n', 'u', 'r'});
+        testMayBeComposed("bonjour",    new char[]{'b', 'o', 'j', 'n', 'u', 'r'});
+        testMayBeComposed("bônjöur",    new char[]{'b', 'o', 'o', 'j', 'n', 'u', 'r'});
+        testMayBeComposed("Bœnjöur",    new char[]{'b', 'o', 'o', 'j', 'n', 'u', 'r'});
+        testMayBeComposed("bec",        new char[]{'b', '*', 'e' });
+
+
+        Log.i("Dict", "Testing getWordsThatCanBeComposed");
+        List<String> words = dict.getWordsThatCanBeComposed(new char[]{'b', '*', 'e' });
+        for(String s : words)
+        {
+            Log.i("Dict", s);
+        }
+    }
+
+    private void testMayBeComposed(String word, char[] letters)
+    {
+        Boolean b2 = dict.mayBeComposed(word, letters);
+        if (b2)
+            Log.i("Dict", "Can build word \"" + word + "\" from chars:  " + String.valueOf(letters));
+        else
+            Log.i("Dict", "Can NOT build word \"" + word + "\" from chars: " + String.valueOf(letters));
+
     }
 
     public void requestPermissionReadSms() {
@@ -94,6 +109,4 @@ public class MainActivity extends AppCompatActivity {
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
-
-
 }

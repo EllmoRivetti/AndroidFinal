@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Dictionary extends AsyncTask<String, String, String> {
 
@@ -88,11 +90,23 @@ public class Dictionary extends AsyncTask<String, String, String> {
                 } else if(i == letters.length - 1){
                     return false;
                 }
-
             }
 
         }
         return true;
     }
 
+    public List<String> getWordsThatCanBeComposed(char[] letters)
+    {
+        List<String> l = new LinkedList<String>();
+        for(String s : wordList)
+        {
+            if (mayBeComposed(s, letters))
+            {
+                l.add(s);
+            }
+        }
+
+        return l;
+    }
 }

@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Dictionary {
 
@@ -55,5 +56,40 @@ public class Dictionary {
         return false;
     }
 
+    public static boolean mayBeComposed(String word, char[] letters)
+    {
+        boolean[] isUsed = new boolean[letters.length];
+        Arrays.fill(isUsed, false);
 
+        for(char c : word.toCharArray()) {
+            for (int i = 0; i < letters.length; i++) {
+                if (letters[i] == c && !isUsed[i]) {
+                    isUsed[i] = true;
+                    break;
+                } else if(i == letters.length){
+                    return false;
+                }
+
+            }
+
+        }
+        return true;
+    }
+
+    public static String replaceFrenchCharacter(String s)
+    {
+
+        StringBuilder newString = new StringBuilder(s);
+        for(int i = 0 ; i < s.length() ; i++)
+        {
+            if(s.charAt(i) == 'à'
+            || s.charAt(i) == 'â'
+            || s.charAt(i) == 'ä')
+            {
+                s.replace() = 'a';
+            }
+        }
+
+        return s;
+    }
 }

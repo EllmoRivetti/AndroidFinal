@@ -6,6 +6,8 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -45,12 +47,33 @@ public class MainActivity extends AppCompatActivity {
         list.setAdapter(contact_adapter);
 
 
-        for(int i = 0 ; i < 10 ; i ++)
+        /*for(int i = 0 ; i < 10 ; i ++)
         {
             HashMap<String, String> map = new HashMap<>();
             map.put("word", "Thing");
             mliste.add(map);
-        }
+        }*/
+
+        Button btnSearch = findViewById(R.id.btnSearch);
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchButtonAction();
+            }
+        });
+    }
+
+    private void searchButtonAction(){
+        String s = "tet";
+        DictionarySearch dictSearch = new DictionarySearch(new AsyncResponse() {
+            @Override
+            public void processFinish() {
+                List<String> listString = dictSearch.getResult();
+            }
+        }, this.dict, s);
+        dictSearch.execute();
+
+
     }
 
     private void init()

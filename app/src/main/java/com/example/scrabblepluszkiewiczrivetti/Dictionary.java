@@ -80,6 +80,7 @@ public class Dictionary extends AsyncTask<String, String, String> {
 
     public static boolean mayBeComposed(String word, char[] letters)
     {
+        word = word.toLowerCase();
         word = replaceFrenchCharacter(word);
         boolean[] isUsed = new boolean[letters.length];
         Arrays.fill(isUsed, false);
@@ -114,46 +115,45 @@ public class Dictionary extends AsyncTask<String, String, String> {
     public static String replaceFrenchCharacter(String s)
     {
         StringBuilder newString = new StringBuilder(s);
-        for(int i = 0 ; i < s.length() ; i++)
+        for(int i = 0 ; i < newString.length() ; i++)
         {
-            if(s.charAt(i) == 'à'
-                    || s.charAt(i) == 'â'
-                    || s.charAt(i) == 'ä')
+            if(newString.charAt(i) == 'à'
+                    || newString.charAt(i) == 'â'
+                    || newString.charAt(i) == 'ä')
             {
                 newString.setCharAt(i, 'a');
             }
-            else if(s.charAt(i) == 'ç')
+            else if(newString.charAt(i) == 'ç')
             {
                 newString.setCharAt(i, 'c');
             }
-            else if(s.charAt(i) == 'é'
-                    || s.charAt(i) == 'è'
-                    || s.charAt(i) == 'ê'
-                    || s.charAt(i) == 'ë')
+            else if(newString.charAt(i) == 'é'
+                    || newString.charAt(i) == 'è'
+                    || newString.charAt(i) == 'ê'
+                    || newString.charAt(i) == 'ë')
             {
                 newString.setCharAt(i, 'e');
             }
-            else if(s.charAt(i) == 'ô'
-                    || s.charAt(i) == 'ö')
+            else if(newString.charAt(i) == 'ô'
+                    || newString.charAt(i) == 'ö')
             {
                 newString.setCharAt(i, 'o');
             }
-            else if(s.charAt(i) == 'ù'
-                    || s.charAt(i) == 'ü'
-                    || s.charAt(i) == 'û')
+            else if(newString.charAt(i) == 'ù'
+                    || newString.charAt(i) == 'ü'
+                    || newString.charAt(i) == 'û')
             {
                 newString.setCharAt(i, 'u');
             }
-            else if(s.charAt(i) == 'œ')
+            else if(newString.charAt(i) == 'œ')
             {
-                //String start = newString.substring(0,i);
-                //String end   = newString.substring(i);
-                newString.insert(i, "oe");
-
+                newString.replace(i, i+1, "oe");
+                i++;
             }
-            else if(s.charAt(i) == 'æ')
+            else if(newString.charAt(i) == 'æ')
             {
-                newString.insert(i, "ae");
+                newString.replace(i, i+1, "ae");
+                i++;
             }
         }
 

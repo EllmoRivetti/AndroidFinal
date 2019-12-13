@@ -49,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
         Log.i("Dict", Boolean.toString(b2));
         Boolean b3 = dict.mayBeComposed("bonjour", new char[]{'b', 'o', 'j', 'n', 'u', 'r'});
         Log.i("Dict", Boolean.toString(b3));
+        Boolean b4 = dict.mayBeComposed("bônjöur", new char[]{'b', 'o', 'j', 'n', 'u', 'r'});
+        Log.i("Dict", Boolean.toString(b4));
+        Boolean b5 = dict.mayBeComposed("Bœnjöur", new char[]{'b', 'o', 'j', 'n', 'u', 'r'});
+        Log.i("Dict", Boolean.toString(b5));
     }
 
     public void requestPermissionReadSms() {

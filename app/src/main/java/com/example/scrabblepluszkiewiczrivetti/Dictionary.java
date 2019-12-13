@@ -1,5 +1,6 @@
 package com.example.scrabblepluszkiewiczrivetti;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -12,65 +13,19 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Dictionary extends AsyncTask<String, String, String> {
+public class Dictionary{
 
     private String[] wordList;
-    private MainActivity main;
 
-
-    // Runs in UI before background thread is called
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-
-        // Do something like display a progress bar
-    }
-
-    @Override
-    protected String doInBackground(String... voids) {
-
-        try {
-            Log.i("Dict", "Starting file parse");
-            InputStream ips = main.getApplicationContext().getResources().openRawResource(R.raw.fr);
-            InputStreamReader ipsr = new InputStreamReader(ips);
-            BufferedReader br = new BufferedReader(ipsr);
-            String line;
-            int i = 0;
-            while ((line = br.readLine()) != null) {
-                if (i == 0) {
-                    int size = Integer.parseInt(line);
-                    wordList = new String[size];
-                } else {
-                    wordList[i - 1] = line;
-                }
-                i++;
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    // This is called from background thread but runs in UI
-    @Override
-    protected void onProgressUpdate(String... values) {
-        super.onProgressUpdate(values);
-    }
-
-    @Override
-    protected void onPostExecute(final String unused) {
-        //Process the result here
-        super.onPostExecute(unused);
-        Log.i("Dict", "Done processing");
-
-        main.resume();
-    }
-
-    public Dictionary(MainActivity main)
+    public Dictionary(final AsyncResponse<Void> response, Context context)
     {
-        this.main = main;
+        DictionaryLoad load = new DictionaryLoad(new AsyncResponse<String[]>() {
+            @Override
+            public void processFinish(String[] result) {
+                wordList = result;
+                response.processFinish(null);
+            }
+        }, context);
     }
 
     public boolean isValidWord(String word)

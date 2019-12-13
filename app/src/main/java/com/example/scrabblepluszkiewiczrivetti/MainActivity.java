@@ -3,6 +3,7 @@ package com.example.scrabblepluszkiewiczrivetti;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -63,23 +64,30 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    DictionarySearch search;
+
     private void searchButtonAction(){
         String s = "tet";
-        DictionarySearch dictSearch = new DictionarySearch(new AsyncResponse() {
+        MainActivity a = this; // In order to reference this
+
+        search = new DictionarySearch(new AsyncResponse<List<String>>() {
             @Override
-            public void processFinish() {
-                List<String> listString = dictSearch.getResult();
+            public void processFinish(List<String> result) {
+                List<String> listString = search.getResult();
+
             }
         }, this.dict, s);
-        dictSearch.execute();
-
-
+        search.execute();
     }
 
     private void init()
     {
-        dict = new Dictionary(this);
-        dict.execute("");
+        dict = new Dictionary(new AsyncResponse<Void>() {
+            @Override
+            public void processFinish(Void result) {
+                resume();
+            }
+        }, this.getApplicationContext());
     }
 
     public void resume()

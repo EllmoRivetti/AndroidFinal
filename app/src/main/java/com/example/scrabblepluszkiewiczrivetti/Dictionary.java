@@ -77,8 +77,10 @@ public class Dictionary extends AsyncTask<String, String, String> {
         Arrays.sort(wordList);
         return Arrays.binarySearch(wordList, word) >= 0;
     }
+
     public static boolean mayBeComposed(String word, char[] letters)
     {
+        word = replaceFrenchCharacter(word);
         boolean[] isUsed = new boolean[letters.length];
         Arrays.fill(isUsed, false);
 
@@ -109,4 +111,53 @@ public class Dictionary extends AsyncTask<String, String, String> {
 
         return l;
     }
+    public static String replaceFrenchCharacter(String s)
+    {
+        StringBuilder newString = new StringBuilder(s);
+        for(int i = 0 ; i < s.length() ; i++)
+        {
+            if(s.charAt(i) == 'à'
+                    || s.charAt(i) == 'â'
+                    || s.charAt(i) == 'ä')
+            {
+                newString.setCharAt(i, 'a');
+            }
+            else if(s.charAt(i) == 'ç')
+            {
+                newString.setCharAt(i, 'c');
+            }
+            else if(s.charAt(i) == 'é'
+                    || s.charAt(i) == 'è'
+                    || s.charAt(i) == 'ê'
+                    || s.charAt(i) == 'ë')
+            {
+                newString.setCharAt(i, 'e');
+            }
+            else if(s.charAt(i) == 'ô'
+                    || s.charAt(i) == 'ö')
+            {
+                newString.setCharAt(i, 'o');
+            }
+            else if(s.charAt(i) == 'ù'
+                    || s.charAt(i) == 'ü'
+                    || s.charAt(i) == 'û')
+            {
+                newString.setCharAt(i, 'u');
+            }
+            else if(s.charAt(i) == 'œ')
+            {
+                //String start = newString.substring(0,i);
+                //String end   = newString.substring(i);
+                newString.insert(i, "oe");
+
+            }
+            else if(s.charAt(i) == 'æ')
+            {
+                newString.insert(i, "ae");
+            }
+        }
+
+        return newString.toString();
+    }
+
 }

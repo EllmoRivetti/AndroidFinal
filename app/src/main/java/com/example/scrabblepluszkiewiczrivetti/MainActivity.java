@@ -6,16 +6,22 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
 
     public final static int REQUEST_CODE_ASK_PERMISSIONS = 1;
     public Dictionary dict;
+    ArrayList<HashMap<String, String>> mliste;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +35,22 @@ public class MainActivity extends AppCompatActivity {
             init();
         }
 
+        mliste = new ArrayList<>();
 
+        String key[] = {"word"};
+        int values[] = {R.id.item_entry};
+
+        ListView list = findViewById(R.id.listViewResult);
+        SimpleAdapter contact_adapter = new SimpleAdapter(this, mliste, R.layout.item_entry, key, values);
+        list.setAdapter(contact_adapter);
+
+
+        for(int i = 0 ; i < 10 ; i ++)
+        {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("word", "Thing");
+            mliste.add(map);
+        }
     }
 
     private void init()

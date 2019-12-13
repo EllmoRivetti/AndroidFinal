@@ -20,10 +20,11 @@ public class PermissionReadSmsDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Log.e("TAG", "Acceptation");
+                        dialogInterface.dismiss();
                         ActivityCompat.requestPermissions(getActivity(),
                                 new String[]{Manifest.permission.READ_SMS},
                                 MainActivity.REQUEST_CODE_ASK_PERMISSIONS);
-                        dialogInterface.dismiss();
+
                     }
                 }).setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
                     @Override

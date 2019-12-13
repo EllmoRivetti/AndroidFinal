@@ -1,15 +1,9 @@
 package com.example.scrabblepluszkiewiczrivetti;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.Console;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -45,7 +39,6 @@ public class Dictionary extends AsyncTask<String, String, String> {
                     wordList = new String[size];
                 } else {
                     wordList[i - 1] = line;
-                    Log.i("Dict", wordList[i - 1]);
                 }
                 i++;
             }
@@ -81,6 +74,25 @@ public class Dictionary extends AsyncTask<String, String, String> {
     {
         Arrays.sort(wordList);
         return Arrays.binarySearch(wordList, word) >= 0;
+    }
+    public static boolean mayBeComposed(String word, char[] letters)
+    {
+        boolean[] isUsed = new boolean[letters.length];
+        Arrays.fill(isUsed, false);
+
+        for(char c : word.toCharArray()) {
+            for (int i = 0; i < letters.length; i++) {
+                if (letters[i] == c && !isUsed[i]) {
+                    isUsed[i] = true;
+                    break;
+                } else if(i == letters.length - 1){
+                    return false;
+                }
+
+            }
+
+        }
+        return true;
     }
 
 }

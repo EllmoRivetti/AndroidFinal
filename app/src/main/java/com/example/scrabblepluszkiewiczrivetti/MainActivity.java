@@ -1,6 +1,7 @@
 package com.example.scrabblepluszkiewiczrivetti;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -22,18 +23,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (checkSelfPermission(Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_SMS}, MainActivity.REQUEST_CODE_ASK_PERMISSIONS);
             requestPermissionReadSms();
+        }
+        else {
+            init();
         }
 
 
     }
 
+    private void init()
+    {
+        dict = new Dictionary(this);
+        dict.execute("");
+    }
+
     public void resume()
     {
+        Log.i("Dict", "Testing isValidWord");
+        Boolean b1 = dict.isValidWord("évoquent");
+        Log.i("Dict", Boolean.toString(b1));
 
-        Boolean b = dict.isValidWord("évoquent");
-        Log.i("Dict", Boolean.toString(b));
+        Log.i("Dict", "Testing mayBeComposed");
+        Boolean b2 = dict.mayBeComposed("bonjour", new char[]{'b', 'o', 'o', 'j', 'n', 'u', 'r'});
+        Log.i("Dict", Boolean.toString(b2));
+        Boolean b3 = dict.mayBeComposed("bonjour", new char[]{'b', 'o', 'j', 'n', 'u', 'r'});
+        Log.i("Dict", Boolean.toString(b3));
     }
 
     public void requestPermissionReadSms() {
@@ -47,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
             case REQUEST_CODE_ASK_PERMISSIONS:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Permission acceptée !", Toast.LENGTH_LONG).show();
-                    dict = new Dictionary(this);
-                    dict.execute("");
+                    init();
                 }
                 break;
             default:

@@ -5,19 +5,19 @@ import android.util.Log;
 
 import java.util.List;
 
-public class DictionarySearch extends AsyncTask<Void, List<String>, Void> {
+public class DictionarySearch extends AsyncTask<Void, List<WordComposition>, Void> {
 
-    private AsyncResponse<List<String>> delegate = null;
+    private AsyncResponse<List<WordComposition>> delegate = null;
     private Dictionary dict;
     private char[] letters;
-    private List<String> result;
+    private List<WordComposition> result;
 
-    public DictionarySearch(AsyncResponse<List<String>> delegate, Dictionary dict, char[] letters){
+    public DictionarySearch(AsyncResponse<List<WordComposition>> delegate, Dictionary dict, char[] letters){
         this.dict = dict;
         this.letters = letters;
         this.delegate = delegate;
     }
-    public DictionarySearch(AsyncResponse<List<String>> delegate, Dictionary dict, String s)
+    public DictionarySearch(AsyncResponse<List<WordComposition>> delegate, Dictionary dict, String s)
     {
         this(delegate, dict, s.toCharArray());
     }
@@ -27,7 +27,7 @@ public class DictionarySearch extends AsyncTask<Void, List<String>, Void> {
         result =  this.dict.getWordsThatCanBeComposed(letters);
         return null;
     }
-    public List<String> getResult()
+    public List<WordComposition> getResult()
     {
         return this.result;
     }

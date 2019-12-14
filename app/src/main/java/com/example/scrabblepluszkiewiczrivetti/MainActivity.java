@@ -15,9 +15,12 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public DictionarySearch search;
 
     ArrayList<HashMap<String, String>> mliste;
+    SimpleAdapter contact_adapter;
 
     private Bundle savedInstanceState;
 
@@ -51,16 +55,11 @@ public class MainActivity extends AppCompatActivity {
         int values[] = {R.id.item_entry};
 
         ListView list = findViewById(R.id.listViewResult);
-        SimpleAdapter contact_adapter = new SimpleAdapter(this, mliste, R.layout.item_entry, key, values);
+        contact_adapter = new SimpleAdapter(this, mliste, R.layout.item_entry, key, values);
         list.setAdapter(contact_adapter);
 
 
-        /*for(int i = 0 ; i < 10 ; i ++)
-        {
-            HashMap<String, String> map = new HashMap<>();
-            map.put("word", "Thing");
-            mliste.add(map);
-        }*/
+
 
         Button btnSearch = findViewById(R.id.btnSearch);
         btnSearch.setOnClickListener(new View.OnClickListener() {
@@ -116,14 +115,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void searchButtonAction(){
-        String s = "tet";
-        MainActivity a = this; // In order to reference this
-
-        search = new DictionarySearch(new AsyncResponse<List<String>>() {
+        String s = "clavi*r";
+        
+        search = new DictionarySearch(new AsyncResponse<List<WordComposition>>() {
             @Override
-            public void processFinish(List<String> result) {
-                List<String> listString = search.getResult();
-                Log.i("Dict", "List: "+listString);
+            public void processFinish(List<WordComposition> result) {
+                Collections.sort(result, new WordCompositionComparator());
+                HashSet<String> foundWords = new HashSet<String>();
+                String s = "";
+                if (result == null) {
+                    s = "no result";
+                } else {
+                    // s = Integer.toString(this.result.size()) + "word(s) found : \n";
+
+                    for (WordComposition wc : result)
+                    {
+                        if (!foundWords.contains(wc.getWord()))
+                        {
+                            s += wc.toString();
+                            foundWords.add(wc.getWord());
+                        }
+                    }
+                }
+                Log.i("Dict", s);
+
+                HashMap<String, String> map = new HashMap<>();
+                map.put("word", s);
+                mliste.add(map);
+                contact_adapter.notifyDataSetChanged();
             }
         }, this.dict, s);
         search.execute();
@@ -154,18 +173,18 @@ public class MainActivity extends AppCompatActivity {
 
 
         Log.i("Dict", "Testing getWordsThatCanBeComposed");
-        List<String> words = dict.getWordsThatCanBeComposed(new char[]{'b', '*', 'e' });
-        for(String s : words)
+        List<WordComposition> words = dict.getWordsThatCanBeComposed(new char[]{'b', '*', 'e' });
+        for(WordComposition s : words)
         {
-            Log.i("Dict", s);
+            Log.i("Dict", s.toString());
         }
     }
 
     private void testMayBeComposed(String word, char[] letters)
     {
-        Boolean b2 = dict.mayBeComposed(word, letters);
-        if (b2)
-            Log.i("Dict", "Can build word \"" + word + "\" from chars:  " + String.valueOf(letters));
+        WordComposition wc = dict.mayBeComposed(word, letters);
+        if (wc != null)
+            Log.i("Dict", "Can build word \"" + word + "\" from chars:  " + String.valueOf(letters) + " worth " + wc.getScore() + " points.");
         else
             Log.i("Dict", "Can NOT build word \"" + word + "\" from chars: " + String.valueOf(letters));
 

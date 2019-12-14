@@ -26,6 +26,7 @@ public class Dictionary{
                 response.processFinish(null);
             }
         }, context);
+        load.execute();
     }
 
     public boolean isValidWord(String word)
@@ -45,7 +46,7 @@ public class Dictionary{
         return jokerCount;
     }
 
-    public static boolean mayBeComposed(String word, char[] letters)
+    public static WordComposition mayBeComposed(String word, char[] letters)
     {
         word = word.toLowerCase();
         word = replaceFrenchCharacter(word);
@@ -64,23 +65,24 @@ public class Dictionary{
                     if (jokerCount > 0) {
                         jokerCount --;
                     } else {
-                        return false;
+                        return null;
                     }
                 }
             }
 
         }
-        return true;
+        return new WordComposition(word, letters, isUsed);
     }
 
-    public List<String> getWordsThatCanBeComposed(char[] letters)
+    public List<WordComposition> getWordsThatCanBeComposed(char[] letters)
     {
-        List<String> l = new LinkedList<String>();
+        List<WordComposition> l = new LinkedList<WordComposition>();
         for(String s : wordList)
         {
-            if (mayBeComposed(s, letters))
+            WordComposition wc = null;
+            if ( (wc = mayBeComposed(s, letters)) != null)
             {
-                l.add(s);
+                l.add(wc);
             }
         }
 

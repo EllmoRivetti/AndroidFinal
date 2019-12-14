@@ -120,8 +120,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 EditText textField = findViewById(R.id.txtFieldSearch);
                 String s = textField.getText().toString();
-                currentString = s;
-                searchButtonAction(s);
+
+                if(s.length() > 0)
+                {
+                    currentString = s;
+                    searchButtonAction(s);
+                }
             }
         });
     }

@@ -8,4 +8,37 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Theme1" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:textColor">@color/colorTextStyle1</item>
+        <item name="android:background">@color/colorBackgroundStyle1</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/quicksand</item>
+    </style>
+
+    <style name="Theme2" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:textColor">@color/colorTextStyle2</item>
+        <item name="android:background">@color/colorBackgroundStyle2</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/nobile</item>
+    </style>
+
+    <style name="Theme3" parent="@style/AppTheme">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:textColor">@color/colorTextStyle3</item>
+        <item name="android:background">@color/colorBackgroundStyle3</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/blackcondensed</item>
+    </style>
+
 </resources>

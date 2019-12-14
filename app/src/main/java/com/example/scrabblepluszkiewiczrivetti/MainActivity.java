@@ -3,10 +3,11 @@ package com.example.scrabblepluszkiewiczrivetti;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -24,12 +25,18 @@ public class MainActivity extends AppCompatActivity {
 
     public final static int REQUEST_CODE_ASK_PERMISSIONS = 1;
     public Dictionary dict;
+    public DictionarySearch search;
+
     ArrayList<HashMap<String, String>> mliste;
+
+    private Bundle savedInstanceState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.savedInstanceState = savedInstanceState;
 
         if (checkSelfPermission(Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissionReadSms();
@@ -64,7 +71,49 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    DictionarySearch search;
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.menuStyle1:
+                changeStyle(1);
+                break;
+            case R.id.menuStyle2:
+                changeStyle(2);
+                break;
+            case R.id.menuStyle3:
+                changeStyle(3);
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void changeStyle(int id)
+    {
+        switch(id)
+        {
+            case 1:
+                setTheme(R.style.Theme1);
+                break;
+            case 2:
+                setTheme(R.style.Theme2);
+                break;
+            case 3:
+                setTheme(R.style.Theme3);
+                break;
+
+            default:
+                break;
+        }
+        setContentView(R.layout.activity_main);
+    }
 
     private void searchButtonAction(){
         String s = "tet";

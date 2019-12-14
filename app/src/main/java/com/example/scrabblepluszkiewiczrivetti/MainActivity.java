@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     public final static int REQUEST_CODE_ASK_PERMISSIONS = 1;
     public Dictionary dict;
     ArrayList<HashMap<String, String>> mliste;
+    SimpleAdapter contact_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +45,11 @@ public class MainActivity extends AppCompatActivity {
         int values[] = {R.id.item_entry};
 
         ListView list = findViewById(R.id.listViewResult);
-        SimpleAdapter contact_adapter = new SimpleAdapter(this, mliste, R.layout.item_entry, key, values);
+        contact_adapter = new SimpleAdapter(this, mliste, R.layout.item_entry, key, values);
         list.setAdapter(contact_adapter);
 
 
-        /*for(int i = 0 ; i < 10 ; i ++)
-        {
-            HashMap<String, String> map = new HashMap<>();
-            map.put("word", "Thing");
-            mliste.add(map);
-        }*/
+
 
         Button btnSearch = findViewById(R.id.btnSearch);
         btnSearch.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 Log.i("Dict", s);
+
+                HashMap<String, String> map = new HashMap<>();
+                map.put("word", s);
+                mliste.add(map);
+                contact_adapter.notifyDataSetChanged();
             }
         }, this.dict, s);
         search.execute();

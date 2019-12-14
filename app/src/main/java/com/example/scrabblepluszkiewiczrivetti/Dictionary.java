@@ -74,8 +74,16 @@ public class Dictionary{
         return new WordComposition(word, letters, isUsed);
     }
 
+    public char[] strapAccentsFromLetters(char[] letters)
+    {
+        String s = new String(letters);
+        s = replaceFrenchCharacter(s);
+        return s.toCharArray();
+    }
+
     public List<WordComposition> getWordsThatCanBeComposed(char[] letters)
     {
+        letters = strapAccentsFromLetters(letters);
         List<WordComposition> l = new LinkedList<WordComposition>();
         for(String s : wordList)
         {

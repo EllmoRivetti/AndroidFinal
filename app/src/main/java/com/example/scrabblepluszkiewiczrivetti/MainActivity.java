@@ -73,10 +73,17 @@ public class MainActivity extends AppCompatActivity {
         search = new DictionarySearch(new AsyncResponse<List<WordComposition>>() {
             @Override
             public void processFinish(List<WordComposition> result) {
-                for(WordComposition wc : search.getResult())
-                {
-                    Log.i("Dict", wc.toString());
+                String s = "";
+                if (result == null) {
+                    s = "no result";
+                } else {
+                    // s = Integer.toString(this.result.size()) + "word(s) found : \n";
+                    for (WordComposition wc : result)
+                    {
+                        s += wc.toString();
+                    }
                 }
+                Log.i("Dict", s);
             }
         }, this.dict, s);
         search.execute();

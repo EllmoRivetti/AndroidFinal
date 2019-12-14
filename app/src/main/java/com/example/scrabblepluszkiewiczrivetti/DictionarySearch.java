@@ -32,18 +32,6 @@ public class DictionarySearch extends AsyncTask<Void, List<WordComposition>, Voi
         return this.result;
     }
 
-    public String getParsedResult()
-    {
-        if (this.result == null) return "no result";
-        String s = "";
-        // s = Integer.toString(this.result.size()) + "word(s) found : \n";
-        for (WordComposition wc : this.result)
-        {
-            s += wc.toString();
-        }
-        return s;
-    }
-
     @Override
     protected void onPostExecute(final Void unused) {
         //Process the result here

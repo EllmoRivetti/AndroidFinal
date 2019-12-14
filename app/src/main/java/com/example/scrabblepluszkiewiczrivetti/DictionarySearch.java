@@ -23,6 +23,7 @@ public class DictionarySearch extends AsyncTask<Void, List<String>, Void> {
     }
     @Override
     protected Void doInBackground(Void ... unused) {
+        Log.i("Dict", "Letters: "+ letters.length);
         result =  this.dict.getWordsThatCanBeComposed(letters);
         return null;
     }

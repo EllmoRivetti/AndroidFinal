@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void processFinish(List<String> result) {
                 List<String> listString = search.getResult();
-
+                Log.i("Dict", "List: "+listString);
             }
         }, this.dict, s);
         search.execute();

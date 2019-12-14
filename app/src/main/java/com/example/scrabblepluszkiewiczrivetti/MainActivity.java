@@ -34,14 +34,12 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<HashMap<String, String>> mliste;
     SimpleAdapter contact_adapter;
 
-    private Bundle savedInstanceState;
+    private String currentString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        this.savedInstanceState = savedInstanceState;
 
         if (checkSelfPermission(Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissionReadSms();
@@ -52,23 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         mliste = new ArrayList<>();
 
-        String key[] = {"word"};
-        int values[] = {R.id.item_entry};
-
-        ListView list = findViewById(R.id.listViewResult);
-        contact_adapter = new SimpleAdapter(this, mliste, R.layout.item_entry, key, values);
-        list.setAdapter(contact_adapter);
-
-
-
-
-        Button btnSearch = findViewById(R.id.btnSearch);
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchButtonAction();
-            }
-        });
+        setAction();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -113,17 +95,43 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         setContentView(R.layout.activity_main);
+        setAction();
+        if(currentString != null) {
+            EditText textField = findViewById(R.id.txtFieldSearch);
+            textField.setText(currentString);
+            searchButtonAction(currentString);
+        }
     }
 
-    private void searchButtonAction(){
-        EditText textField = findViewById(R.id.txtFieldSearch);
-        String s = textField.getText().toString();
-        
+
+    private void setAction()
+    {
+        String key[] = {"word"};
+        int values[] = {R.id.item_entry};
+
+        ListView list = findViewById(R.id.listViewResult);
+        contact_adapter = new SimpleAdapter(this, mliste, R.layout.item_entry, key, values);
+        list.setAdapter(contact_adapter);
+
+
+        Button btnSearch = findViewById(R.id.btnSearch);
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText textField = findViewById(R.id.txtFieldSearch);
+                String s = textField.getText().toString();
+                currentString = s;
+                searchButtonAction(s);
+            }
+        });
+    }
+
+    private void searchButtonAction(String s){
         search = new DictionarySearch(new AsyncResponse<List<WordComposition>>() {
             @Override
             public void processFinish(List<WordComposition> result) {
                 mliste.clear();
-                
+
                 Collections.sort(result, new WordCompositionComparator());
                 HashSet<String> foundWords = new HashSet<String>();
                 String s = "";

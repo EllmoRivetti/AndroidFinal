@@ -67,14 +67,16 @@ public class MainActivity extends AppCompatActivity {
     DictionarySearch search;
 
     private void searchButtonAction(){
-        String s = "tet";
+        String s = "be*";
         MainActivity a = this; // In order to reference this
 
-        search = new DictionarySearch(new AsyncResponse<List<String>>() {
+        search = new DictionarySearch(new AsyncResponse<List<WordComposition>>() {
             @Override
-            public void processFinish(List<String> result) {
-                List<String> listString = search.getResult();
-                Log.i("Dict", "List: "+listString);
+            public void processFinish(List<WordComposition> result) {
+                for(WordComposition wc : search.getResult())
+                {
+                    Log.i("Dict", wc.toString());
+                }
             }
         }, this.dict, s);
         search.execute();
@@ -105,18 +107,18 @@ public class MainActivity extends AppCompatActivity {
 
 
         Log.i("Dict", "Testing getWordsThatCanBeComposed");
-        List<String> words = dict.getWordsThatCanBeComposed(new char[]{'b', '*', 'e' });
-        for(String s : words)
+        List<WordComposition> words = dict.getWordsThatCanBeComposed(new char[]{'b', '*', 'e' });
+        for(WordComposition s : words)
         {
-            Log.i("Dict", s);
+            Log.i("Dict", s.toString());
         }
     }
 
     private void testMayBeComposed(String word, char[] letters)
     {
-        Boolean b2 = dict.mayBeComposed(word, letters);
-        if (b2)
-            Log.i("Dict", "Can build word \"" + word + "\" from chars:  " + String.valueOf(letters));
+        WordComposition wc = dict.mayBeComposed(word, letters);
+        if (wc != null)
+            Log.i("Dict", "Can build word \"" + word + "\" from chars:  " + String.valueOf(letters) + " worth " + wc.getScore() + " points.");
         else
             Log.i("Dict", "Can NOT build word \"" + word + "\" from chars: " + String.valueOf(letters));
 

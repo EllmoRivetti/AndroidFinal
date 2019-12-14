@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public final class Data {
 
-    private Data instance = null;
+    private static Data instance = null;
     private HashMap<Character, Integer> scorePerCharacter;
 
     private Data()
@@ -39,13 +39,18 @@ public final class Data {
         scorePerCharacter.put(Character.valueOf('z'), 10);
     }
 
-    public Data get()
+    public static Data get()
     {
         if  (instance == null)
         {
             instance = new Data();
         }
         return instance;
+    }
+
+    public int getLetterScore(char letter)
+    {
+        return scorePerCharacter.get(letter);
     }
 
 }

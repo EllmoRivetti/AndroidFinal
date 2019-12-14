@@ -14,9 +14,12 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -63,20 +66,27 @@ public class MainActivity extends AppCompatActivity {
     DictionarySearch search;
 
     private void searchButtonAction(){
-        String s = "be*";
+        String s = "clavi*r";
         MainActivity a = this; // In order to reference this
 
         search = new DictionarySearch(new AsyncResponse<List<WordComposition>>() {
             @Override
             public void processFinish(List<WordComposition> result) {
+                Collections.sort(result, new WordCompositionComparator());
+                HashSet<String> foundWords = new HashSet<String>();
                 String s = "";
                 if (result == null) {
                     s = "no result";
                 } else {
                     // s = Integer.toString(this.result.size()) + "word(s) found : \n";
+
                     for (WordComposition wc : result)
                     {
-                        s += wc.toString();
+                        if (!foundWords.contains(wc.getWord()))
+                        {
+                            s += wc.toString();
+                            foundWords.add(wc.getWord());
+                        }
                     }
                 }
                 Log.i("Dict", s);

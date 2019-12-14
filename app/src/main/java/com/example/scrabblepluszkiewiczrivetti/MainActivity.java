@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -115,11 +116,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void searchButtonAction(){
-        String s = "clavi*r";
+        EditText textField = findViewById(R.id.txtFieldSearch);
+        String s = textField.getText().toString();
         
         search = new DictionarySearch(new AsyncResponse<List<WordComposition>>() {
             @Override
             public void processFinish(List<WordComposition> result) {
+                mliste.clear();
+                
                 Collections.sort(result, new WordCompositionComparator());
                 HashSet<String> foundWords = new HashSet<String>();
                 String s = "";

@@ -26,6 +26,7 @@ public class Dictionary{
                 response.processFinish(null);
             }
         }, context);
+        load.execute();
     }
 
     public boolean isValidWord(String word)

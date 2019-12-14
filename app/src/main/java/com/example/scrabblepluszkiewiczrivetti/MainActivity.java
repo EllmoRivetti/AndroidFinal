@@ -67,8 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void searchButtonAction(){
         String s = "clavi*r";
-        MainActivity a = this; // In order to reference this
-
+        
         search = new DictionarySearch(new AsyncResponse<List<WordComposition>>() {
             @Override
             public void processFinish(List<WordComposition> result) {
